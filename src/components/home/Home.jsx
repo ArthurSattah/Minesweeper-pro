@@ -79,7 +79,7 @@ const Home = (props) => {
                     }
                     props.changeTheValues(parseInt(numberOfRows),parseInt(numberOfColumns),parseInt(numberOfMines));
                     navigate({
-                        pathname: "start",
+                        pathname: "https://arthursattah.github.io/Minesweeper-pro/start",
                         search: createSearchParams({ numberOfRows: numberOfRows , numberOfColumns: numberOfColumns , numberOfMines: numberOfMines}).toString()
                     });
                 }}>
