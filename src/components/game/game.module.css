@@ -1,0 +1,147 @@
+.game{
+    padding: 20px;
+    background-color: rgb(57, 45, 92);
+    margin: 0 auto;
+    margin-top: 40px;
+    width: fit-content;
+    min-width: 300px;
+    border-radius: 30px;
+}
+.goingBack{
+    color: white;
+}
+.topSection{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    color: white;
+    font-size: 20px;
+    font-weight: 500;
+    height: 60px;
+}
+.back{
+    cursor: pointer;
+}
+.clock{
+    width: 30px;
+}
+.timer{
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    align-items: center;
+}
+.middleSection{
+    margin: 10px 0px;
+}
+.rows{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 1px;
+    gap: 1px;
+}
+.digit{
+    width: 25px;
+    height: 25px;
+    background-color: rgb(110, 93, 93);
+    text-align: center;
+    border-radius: 6px;
+    cursor: pointer;
+    color: white;
+    font-size: 18px;
+    font-weight: 500;
+}
+.digit:hover{
+    background-color: rgb(184, 152, 152);
+}
+.openSquare{
+    background-color: rgb(128, 116, 192);
+}
+
+
+.downSection{
+    
+    height: 60px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+
+}
+.restart{
+    background-color: blue;
+    padding: 5px 10px;
+    font-size: 20px;
+    font-weight: 500;
+    border-radius: 15px;
+    cursor: pointer;
+    color: white;
+}
+
+.lose{
+    padding: 5px 10px;
+    font-size: 20px;
+    font-weight: 500;
+    color: red;
+}
+
+.win{
+    padding: 5px 10px;
+    font-size: 20px;
+    font-weight: 500;
+    color: rgb(0, 255, 0);
+}
+
+.hint{
+    background-color: blue;
+    padding: 5px 10px;
+    font-size: 20px;
+    font-weight: 500;
+    border-radius: 15px;
+    cursor: pointer;
+    color: white;
+}
+
+.usingHint{
+    background-color: rgb(3, 3, 105)
+}
+
+.value-1{
+    color: black;
+}
+.value1{
+    color: darkred
+}
+.value2{
+    color: darkorange
+}
+.value3{
+    color: rgb(0, 255, 0);
+}
+.value4{
+    color: rgb(14, 58, 179);
+}
+.value5{
+    color: rgb(3, 44, 92);
+}
+.value6{
+    color: rgb(241, 221, 41);
+}
+.value7{
+    color: rgb(103, 5, 128);
+}
+.value8{
+    color: rgb(197, 6, 6);
+}
+.losingSquare{
+    background-color: yellow;
+}
+.losingSquare:hover{
+    background-color: yellow;
+}
+.hidingMine{
+    background-color: rgb(240, 136, 1);
+    color: black
+}
