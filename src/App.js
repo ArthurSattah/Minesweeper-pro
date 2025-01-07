@@ -7,8 +7,8 @@ import Game from './components/game/Game';
 function App (props) {
   return (
     <Routes>
-      <Route path="https://arthursattah.github.io/Minesweeper-pro/" element={<Home/>} />
-      <Route path="https://arthursattah.github.io/Minesweeper-pro/start" element={<Game/>} />
+      <Route path="/" element={<Home/>} />
+      <Route path="start" element={<Game/>} />
     </Routes>
   );
 }
