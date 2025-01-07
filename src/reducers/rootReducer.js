@@ -160,6 +160,7 @@ const reducer = (state = initState , action)=>{
             alert("You are using Hint")
             return{
                 ...state,
+
             }
         }
         let i=action.i;
@@ -176,16 +177,19 @@ const reducer = (state = initState , action)=>{
             }
             if(count===state.arrValue[i][j]){
                 let newArrState=state.arrState.slice();
+                let f=0;
                 for (let k = 0; k < 8; k++) {
                     let ni=i+goi[k];
                     let nj=j+goj[k];
                     if(isIn(ni,nj,state.numberOfRows,state.numberOfColumns) && state.arrState[ni][nj] ===0 ){
                         newArrState[ni][nj]=2;
+                        f++;
                     }
                 }
                 return{
                     ...state,
-                    arrState: newArrState
+                    arrState: newArrState,
+                    usedMines : state.usedMines+f,
                 }
             }
 
