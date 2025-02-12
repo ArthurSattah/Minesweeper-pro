@@ -38,6 +38,21 @@ const Game = (props) => {
   const [numberOfMines, setNumberOfMines] = useState(searchParams.get("numberOfMines"));
   const [g, setG] = useState(0);
   useEffect(() => {
+    function arthur(e) {
+      losingSound.currentTime = 0;
+      losingSound.pause();
+      winningSound.currentTime = 0;
+      winningSound.pause();
+      zeroClickingSound.currentTime = 0;
+      zeroClickingSound.pause();
+    }
+    window.addEventListener('popstate',arthur(),{capture: true});
+    return ()=>{
+      window.removeEventListener('popstate',arthur(),{capture: true})
+    }
+  },[])
+
+  useEffect(() => {
 
     if (goodParams(numberOfRows, numberOfColumns, numberOfMines)) {
       props.changeTheValues(parseInt(numberOfRows), parseInt(numberOfColumns), parseInt(numberOfMines));
@@ -91,7 +106,7 @@ const Game = (props) => {
   }, [props.usingHint]);
 
   useEffect(() => {
-    if (props.gameState === 0)
+    if (props.gameState !== 1)
       return;
     zeroClickingSound.play();
   }, [props.openedZero]);
@@ -110,7 +125,6 @@ const Game = (props) => {
               winningSound.pause();
               zeroClickingSound.currentTime = 0;
               zeroClickingSound.pause();
-              props.handleReset();
               navigate("/")
             }}>
               Back
@@ -232,9 +246,6 @@ function mapDispatchToProps(dispatch) {
     }),
     handleUseHint: () => dispatch({
       type: "handleUseHint",
-    }),
-    handleReset: () => dispatch({
-      type: "handleReset",
     })
 
   }
@@ -250,9 +261,12 @@ function goodParams(numberOfRows, numberOfColumns, numberOfMines) {
 
   if (numberOfRows === "")
     return 0;
+  if (numberOfRows[0] === '0')
+    return 0;
 
   if (parseInt(numberOfRows) > 50 || parseInt(numberOfRows) < 1)
     return 0;
+
 
   if (numberOfColumns === null || numberOfColumns === undefined)
     return 0;
@@ -262,6 +276,8 @@ function goodParams(numberOfRows, numberOfColumns, numberOfMines) {
       return 0;
 
   if (numberOfColumns === "")
+    return 0;
+  if (numberOfColumns[0] === '0')
     return 0;
 
   if (parseInt(numberOfColumns) > 50 || parseInt(numberOfColumns) < 1)
@@ -275,6 +291,8 @@ function goodParams(numberOfRows, numberOfColumns, numberOfMines) {
       return 0;
 
   if (numberOfMines === "")
+    return 0;
+  if (numberOfMines[0] === '0')
     return 0;
 
   let GameArea = parseInt(numberOfRows) * parseInt(numberOfColumns);

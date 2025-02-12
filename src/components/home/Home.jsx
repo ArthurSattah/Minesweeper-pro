@@ -1,91 +1,110 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './home.module.css'
 import { connect } from "react-redux";
-import { createSearchParams, useNavigate} from "react-router-dom";
+import { createSearchParams, useNavigate } from "react-router-dom";
 const Home = (props) => {
+    const [numberOfRows, setNumberOfRows] = useState("10");
+    const [numberOfColumns, setNumberOfColumns] = useState("10");
+    const [numberOfMines, setNumberOfMines] = useState("10");
+    const [level, setLevel] = useState("easy");
+
+    useEffect(()=>{
+        if(level==="easy"){
+            setNumberOfRows("10");
+            setNumberOfColumns("10");
+            setNumberOfMines("10");
+        }
+        else if (level ==="medium"){
+            setNumberOfRows("15");
+            setNumberOfColumns("15");
+            setNumberOfMines("40");
+
+        }
+        else {
+            
+            setNumberOfRows("20");
+            setNumberOfColumns("20");
+            setNumberOfMines("100");
+        }
+
+    },[level])
+
+    useEffect(() => {
+        props.handleReset();
+    }, [])
 
     const navigate = useNavigate();
+    const handleSubmit = () => {
+        if (check(numberOfRows) === 0) {
+            alert("Number of rows should be integer bettwen 1 and 50")
+            return;
+        }
+        if (check(numberOfColumns) === 0) {
+            alert("Number of columns should be integer bettwen 1 and 50")
+            return;
+        }
+        if(numberOfColumns==="1" && numberOfRows==="1" ){
+            alert("You can't make one square game")
+            return;
+        }
+        if (checkMines(numberOfMines, numberOfRows, numberOfColumns) === 0) {
+            alert(`Number of Mines should be integer bettwen 1 and ${parseInt(numberOfRows) * parseInt(numberOfColumns) - 1}`)
+            return;
+        }
+        props.changeTheValues(parseInt(numberOfRows), parseInt(numberOfColumns), parseInt(numberOfMines));
+        navigate({
+            pathname: "start",
+            search: createSearchParams({ numberOfRows: numberOfRows, numberOfColumns: numberOfColumns, numberOfMines: numberOfMines }).toString()
+        });
+    }
+
     return (
         <div className={styles.home}>
-            <div className={styles.box}>
+            <form className={styles.box} onSubmit={handleSubmit}>
                 <h1 className={styles.title}>
                     Minesweeper
                 </h1>
                 <div className={styles.inputs}>
                     <div className={styles.input}>
-                        <input defaultValue={10} id='NumberOfRows' />
+                        <input
+                            required
+                            value={numberOfRows}
+                            type="number"
+                            onChange={(e) => setNumberOfRows(e.target.value)} />
                         <label >Number of Rows</label>
                     </div>
                     <div className={styles.input}>
-                        <input defaultValue={10} id='NumberOfColumns' />
+                        <input
+                            required
+                            value={numberOfColumns}
+                            type="number"
+                            onChange={(e) => setNumberOfColumns(e.target.value)} />
                         <label >Number of Columns</label>
                     </div>
                     <div className={styles.input}>
-                        <input defaultValue={10} id='NumberOfMines' />
+                        <input
+                            required
+                            value={numberOfMines}
+                            type="number"
+                            onChange={(e) => setNumberOfMines(e.target.value)} />
                         <label >Number of Mines</label>
                     </div>
 
                 </div>
-                <button className={styles.button} onClick={() => {
-
-                    let numberOfRows = document.getElementById("NumberOfRows").value;
-                    let numberOfColumns = document.getElementById("NumberOfColumns").value;
-                    let numberOfMines = document.getElementById("NumberOfMines").value;
-
-                    for (let index = 0; index < numberOfRows.length; index++) {
-                        if (numberOfRows[index] < '0' || numberOfRows[index] > '9') {
-                            alert("The number of rows should be an integer positave number");
-                            return;
-                        }
-                    }
-                    if (numberOfRows === "") {
-                        alert("The number of rows should not be empty");
-                        return;
-                    }
-                    if (parseInt(numberOfRows) > 50 || parseInt(numberOfRows) < 1) {
-                        alert("The number of rows field should be from 1 to 50");
-                        return;
-                    }
-
-                    for (let index = 0; index < numberOfColumns.length; index++) {
-                        if (numberOfColumns[index] < '0' || numberOfColumns[index] > '9') {
-                            alert("The number of columns should be an integer positave number");
-                            return;
-                        }
-                    }
-                    if (numberOfColumns === "") {
-                        alert("The number of columns should not be empty");
-                        return;
-                    }
-                    if (parseInt(numberOfColumns) > 50 || parseInt(numberOfColumns) < 1) {
-                        alert("The number of columns field should be from 1 to 50");
-                        return;
-                    }
-
-                    for (let index = 0; index < numberOfMines.length; index++) {
-                        if (numberOfMines[index] < '0' || numberOfMines[index] > '9') {
-                            alert("The number of mines should be an integer positave number");
-                            return;
-                        }
-                    }
-                    if (numberOfMines === "") {
-                        alert("The number of mines field should not be empty");
-                        return;
-                    }
-                    let GameArea = parseInt(numberOfRows) * parseInt(numberOfColumns);
-                    if (parseInt(numberOfMines) >= GameArea || parseInt(numberOfMines) < 1) {
-                        alert(`The number of mines should be bigger the 0 and smaller the ${GameArea}`);
-                        return;
-                    }
-                    props.changeTheValues(parseInt(numberOfRows),parseInt(numberOfColumns),parseInt(numberOfMines));
-                    navigate({
-                        pathname: "start",
-                        search: createSearchParams({ numberOfRows: numberOfRows , numberOfColumns: numberOfColumns , numberOfMines: numberOfMines}).toString()
-                    });
-                }}>
+                <div className={styles.filter}>
+                    <div>
+                        Chose Level
+                    </div>
+                    <select value={level} onChange={(e) => { setLevel(e.target.value) }} onClick={(e) => e.preventDefault()}>
+                        <option value="easy">Easy</option>
+                        <option value="medium">Medium</option>
+                        <option value="hard">Hard</option>
+                    </select>
+                </div>
+                <button className={styles.button} type="submit">
                     Play
                 </button>
-            </div>
+            </form>
         </div>
     )
 }
@@ -97,9 +116,51 @@ function mapDispatchToProps(dispatch) {
     return {
         changeTheValues: () => dispatch({
             type: "changeTheInitValues",
+        }),
+        handleReset: () => dispatch({
+            type: "handleReset",
         })
 
     }
+}
+
+function check(num) {
+    if (num === null || num === undefined)
+        return 0;
+
+    for (let index = 0; index < num.length; index++)
+        if (num[index] < '0' || num[index] > '9')
+            return 0;
+
+    if (num === "")
+        return 0;
+
+    if (num[0] === '0')
+        return 0;
+
+    if (parseInt(num) > 50 || parseInt(num) < 1)
+        return 0;
+
+    return 1;
+}
+function checkMines(num, numberOfRows, numberOfColumns) {
+    if (num === null || num === undefined)
+        return 0;
+
+    for (let index = 0; index < num.length; index++)
+        if (num[index] < '0' || num[index] > '9')
+            return 0;
+
+    if (num === "")
+        return 0;
+
+    if (num[0] === '0')
+        return 0;
+
+    if (parseInt(num) >= parseInt(numberOfRows) * parseInt(numberOfColumns) || parseInt(num) < 1)
+        return 0;
+
+    return 1;
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

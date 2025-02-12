@@ -17,7 +17,6 @@ let goj=[-1,-1,0,1,1,1,0,-1];
 
 const reducer = (state = initState , action)=>{
     if(action.type ==="changeTheInitValues"){
-        console.log(action.numberOfRows)
         return {
             ...state,
             numberOfRows : action.numberOfRows,
@@ -28,7 +27,6 @@ const reducer = (state = initState , action)=>{
     if(action.type === "handleReset")
         return{...initState}
     if(action.type ==="makeTheGame"){
-        console.log(state.numberOfRows);
         let newArrValue=Array(state.numberOfRows).fill(0).map(row => new Array(state.numberOfColumns).fill(0));
         let newArrState=Array(state.numberOfRows).fill(0).map(row => new Array(state.numberOfColumns).fill(0));
         let arr=Array(state.numberOfRows*state.numberOfColumns).fill(0);
@@ -64,7 +62,7 @@ const reducer = (state = initState , action)=>{
         }
         let i=action.i;
         let j=action.j;
-        if(state.arrState[i][j]===2 || (state.arrState[i][j]===1 && state.arrValue[i][j]===0)){
+        if(state.arrState[i][j]===2 ){
             return {
                 ...state
             }
@@ -90,12 +88,17 @@ const reducer = (state = initState , action)=>{
             }
         }
         let count=0;
+        let count_hide=0;
         for (let k = 0; k < 8; k++) {
             let ni=i+goi[k];
             let nj=j+goj[k];
             if(isIn(ni,nj,state.numberOfRows,state.numberOfColumns) && state.arrState[ni][nj]===2)
                 count++;
+            if(isIn(ni,nj,state.numberOfRows,state.numberOfColumns) && state.arrState[ni][nj]===0)
+                count_hide++;
         }
+        if(count_hide===0 && state.arrState[i][j]!==0)
+            return {...state}
         let newOpenedZero=0;
         let newOpenedSquare=state.openedSquare;
         let f=0;
@@ -165,6 +168,16 @@ const reducer = (state = initState , action)=>{
         }
         let i=action.i;
         let j=action.j;
+        
+        let count_hide=0;
+        for (let k = 0; k < 8; k++) {
+            let ni=i+goi[k];
+            let nj=j+goj[k];
+            if(isIn(ni,nj,state.numberOfRows,state.numberOfColumns) && state.arrState[ni][nj]===0)
+                count_hide++;
+        }
+        if(count_hide===0 && state.arrState[i][j]===1)
+            return {...state}
         if(state.arrState[i][j]===1){
             if(state.arrValue[i][j]===0)
                 return{...state};

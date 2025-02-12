@@ -1,18 +1,29 @@
 .home{
     margin-top: 40px;
     width: 100%;
+    animation: appear_from_top linear;
+    animation-duration: 0.5s;
+}
+@keyframes appear_from_top {
+    from {
+        opacity: 0;
+        scale: 0.5;
+    }
 
+    to {
+        opacity: 1;
+        scale: 1;
+    }
 }
 
 .box{
     padding: 10px 10px 30px 10px;
-
     background-color: rgb(80, 66, 122);
     margin: 0 auto;
     width: 330px;
     border-radius: 30px;
     border: solid 2px black;
-    height: 300px;
+    height: 350px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -38,13 +49,28 @@
 .input input{
     color: white;
     background-color: rgb(128, 116, 192);
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
     border-radius: 15px;
     text-align: center;
     border: solid 2px black;
     font-size: 18px;
     font-weight: 400;
+}
+
+.input input:focus-within{
+    outline: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }
 .input label{
     
@@ -53,6 +79,31 @@
     font-size: 15px;
     font-weight: 400;
     color: white;
+}
+
+.filter{
+    width: 85%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    color: white;
+    font-size: 18px;
+    font-weight: 400;
+}
+.filter select{
+    background-color: rgb(128, 116, 192);
+    color: white;
+    border: none;
+    border-bottom: solid 1px black;
+    font-size: 15px;
+    font-weight: 400;
+    padding: 4px;
+}
+.filter select::selection{
+    translate: 20px 20px;
+}
+.filter select:focus-within{
+    outline: none;
 }
 .button{
     width: 80px;
