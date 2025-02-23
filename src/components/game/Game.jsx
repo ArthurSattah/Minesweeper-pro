@@ -11,20 +11,19 @@ import hintSound from "../../sounds/hint.mp3";
 import zeroClickSound from "../../sounds/zeroclick.mp3";
 
 const losingSound = new Audio(loseSound);
-losingSound.volume = 0.5;
+losingSound.volume = 1;
 
 const winningSound = new Audio(winSound);
-winningSound.volume = 0.5;
+winningSound.volume = 1;
 
 const clickingSound = new Audio(clickSound);
-clickingSound.volume = 0.5;
+clickingSound.volume = 1;
 
 const hintingSound = new Audio(hintSound);
-hintingSound.volume = 0.5;
+hintingSound.volume = 1;
 
 const zeroClickingSound = new Audio(zeroClickSound);
-zeroClickingSound.volume = 0.5;
-
+zeroClickingSound.volume = 1;
 
 
 const Game = (props) => {
@@ -33,9 +32,11 @@ const Game = (props) => {
   const [time, setTime] = useState(0);
   const [pinding, setPinding] = useState(1);
   const [searchParams, setSearchParams] = useSearchParams();
-  const [numberOfRows, setNumberOfRows] = useState(searchParams.get("numberOfRows"));
-  const [numberOfColumns, setNumberOfColumns] = useState(searchParams.get("numberOfColumns"));
-  const [numberOfMines, setNumberOfMines] = useState(searchParams.get("numberOfMines"));
+  
+  let numberOfRows = searchParams.get("numberOfRows");
+  let numberOfColumns = searchParams.get("numberOfColumns");
+  let numberOfMines = searchParams.get("numberOfMines");
+
   const [g, setG] = useState(0);
   useEffect(() => {
     function arthur(e) {
@@ -45,12 +46,14 @@ const Game = (props) => {
       winningSound.pause();
       zeroClickingSound.currentTime = 0;
       zeroClickingSound.pause();
+      setPinding(1);
+      props.handleReset();
     }
-    window.addEventListener('popstate',arthur(),{capture: true});
-    return ()=>{
-      window.removeEventListener('popstate',arthur(),{capture: true})
+    window.addEventListener('popstate', arthur(), { capture: true });
+    return () => {
+      window.removeEventListener('popstate', arthur(), { capture: true })
     }
-  },[])
+  }, [])
 
   useEffect(() => {
 
@@ -125,6 +128,8 @@ const Game = (props) => {
               winningSound.pause();
               zeroClickingSound.currentTime = 0;
               zeroClickingSound.pause();
+              setPinding(1);
+              props.handleReset();
               navigate("/")
             }}>
               Back
@@ -137,7 +142,7 @@ const Game = (props) => {
             </div>
           </div>
 
-          <div className={styles.middleSection}>
+          <div className={styles.middleSection} onContextMenu={(e) => { e.preventDefault(); }}>
             {
               props.arrValue.map((row, i) => {
                 return (
@@ -166,6 +171,7 @@ const Game = (props) => {
                             }}>
                             {
                               props.gameState === 2 && digit === -1 ? "X" :
+                               props.gameState === 2 && props.arrState[i][j] === 2 && digit !==-1 ? digit :
                                 props.arrState[i][j] === 0 ? "" :
                                   props.arrState[i][j] === 2 ? "X" :
                                     digit === 0 ? "" :
@@ -246,6 +252,9 @@ function mapDispatchToProps(dispatch) {
     }),
     handleUseHint: () => dispatch({
       type: "handleUseHint",
+    }),
+    handleReset: () => dispatch({
+      type: "handleReset",
     })
 
   }

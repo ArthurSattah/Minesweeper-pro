@@ -3,10 +3,19 @@ import styles from './home.module.css'
 import { connect } from "react-redux";
 import { createSearchParams, useNavigate } from "react-router-dom";
 const Home = (props) => {
-    const [numberOfRows, setNumberOfRows] = useState("10");
-    const [numberOfColumns, setNumberOfColumns] = useState("10");
-    const [numberOfMines, setNumberOfMines] = useState("10");
-    const [level, setLevel] = useState("easy");
+    const [numberOfRows, setNumberOfRows] = useState(props.numberOfRows);
+    const [numberOfColumns, setNumberOfColumns] = useState(props.numberOfColumns);
+    const [numberOfMines, setNumberOfMines] = useState(props.numberOfMines);
+    const [level, setLevel] = useState("custom");
+
+    useEffect(()=>{
+        if(level==="stop")
+            return ;
+        setNumberOfRows(props.numberOfRows);
+        setNumberOfColumns(props.numberOfColumns);
+        setNumberOfMines(props.numberOfMines);
+        
+    },[props])
 
     useEffect(()=>{
         if(level==="easy"){
@@ -20,7 +29,7 @@ const Home = (props) => {
             setNumberOfMines("40");
 
         }
-        else {
+        else if (level ==="hard"){
             
             setNumberOfRows("20");
             setNumberOfColumns("20");
@@ -29,12 +38,10 @@ const Home = (props) => {
 
     },[level])
 
-    useEffect(() => {
-        props.handleReset();
-    }, [])
 
     const navigate = useNavigate();
-    const handleSubmit = () => {
+    const handleSubmit = (event) => {
+        event.preventDefault();
         if (check(numberOfRows) === 0) {
             alert("Number of rows should be integer bettwen 1 and 50")
             return;
@@ -51,6 +58,7 @@ const Home = (props) => {
             alert(`Number of Mines should be integer bettwen 1 and ${parseInt(numberOfRows) * parseInt(numberOfColumns) - 1}`)
             return;
         }
+        setLevel("stop");
         props.changeTheValues(parseInt(numberOfRows), parseInt(numberOfColumns), parseInt(numberOfMines));
         navigate({
             pathname: "start",
@@ -96,6 +104,7 @@ const Home = (props) => {
                         Chose Level
                     </div>
                     <select value={level} onChange={(e) => { setLevel(e.target.value) }} onClick={(e) => e.preventDefault()}>
+                        <option value="custom">Custom</option>
                         <option value="easy">Easy</option>
                         <option value="medium">Medium</option>
                         <option value="hard">Hard</option>
@@ -110,15 +119,15 @@ const Home = (props) => {
 }
 function mapStateToProps(state) {
     return {
+        numberOfRows: state.numberOfRows,
+        numberOfColumns: state.numberOfColumns,
+        numberOfMines: state.numberOfMines,
     }
 }
 function mapDispatchToProps(dispatch) {
     return {
         changeTheValues: () => dispatch({
             type: "changeTheInitValues",
-        }),
-        handleReset: () => dispatch({
-            type: "handleReset",
         })
 
     }

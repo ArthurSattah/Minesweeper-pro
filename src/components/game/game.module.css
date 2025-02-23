@@ -1,8 +1,7 @@
 .game{
     padding: 20px;
     background-color: rgb(57, 45, 92);
-    margin: 0 auto;
-    margin-top: 40px;
+    margin: 40px auto;
     width: fit-content;
     min-width: 300px;
     border-radius: 30px;
@@ -36,6 +35,7 @@
 }
 .middleSection{
     margin: 10px 0px;
+    user-select: none;
 }
 .rows{
     display: flex;
