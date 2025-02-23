@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/Minesweeper-pro/static/css/main.726aa9fb.css",
-    "main.js": "/Minesweeper-pro/static/js/main.04866ba9.js",
+    "main.css": "/Minesweeper-pro/static/css/main.252193bf.css",
+    "main.js": "/Minesweeper-pro/static/js/main.42ac03b9.js",
     "static/js/453.4bfed5ef.chunk.js": "/Minesweeper-pro/static/js/453.4bfed5ef.chunk.js",
     "static/media/win.mp3": "/Minesweeper-pro/static/media/win.b171a08d94c403375fd7.mp3",
     "static/media/lose.mp3": "/Minesweeper-pro/static/media/lose.93ad90fee6d1b04f8451.mp3",
@@ -9,12 +9,12 @@
     "static/media/hint.mp3": "/Minesweeper-pro/static/media/hint.ed3894f877249fd39ddf.mp3",
     "static/media/click.mp3": "/Minesweeper-pro/static/media/click.2944938830ac5d97fe17.mp3",
     "index.html": "/Minesweeper-pro/index.html",
-    "main.726aa9fb.css.map": "/Minesweeper-pro/static/css/main.726aa9fb.css.map",
-    "main.04866ba9.js.map": "/Minesweeper-pro/static/js/main.04866ba9.js.map",
+    "main.252193bf.css.map": "/Minesweeper-pro/static/css/main.252193bf.css.map",
+    "main.42ac03b9.js.map": "/Minesweeper-pro/static/js/main.42ac03b9.js.map",
     "453.4bfed5ef.chunk.js.map": "/Minesweeper-pro/static/js/453.4bfed5ef.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.726aa9fb.css",
-    "static/js/main.04866ba9.js"
+    "static/css/main.252193bf.css",
+    "static/js/main.42ac03b9.js"
   ]
 }
